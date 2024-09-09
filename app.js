@@ -35,7 +35,7 @@ function checkFileType(file, cb) {
 }
 
 // Route to upload file with dynamic path
-app.post('/upload', (req, res) => {
+app.post('/upload/file/upload', (req, res) => {
   upload(req, res, (err) => {
     if (err) {
       res.status(400).send({ message: err });
