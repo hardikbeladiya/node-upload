@@ -67,7 +67,7 @@ app.post('/upload', (req, res) => {
 });
 
 app.use(function(req, res, next) {
-  console.log('404 error handler', req.path);
+  console.error('404 error handler', req.path);
   next(createError(404));
 });
 
