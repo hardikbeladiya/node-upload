@@ -2,6 +2,7 @@ const express = require('express');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+const createError = require("http-errors");
 
 const app = express();
 app.use(express.json());
@@ -64,6 +65,12 @@ app.post('/upload', (req, res) => {
     }
   });
 });
+
+app.use(function(req, res, next) {
+  console.log('404 error handler', req.path);
+  next(createError(404));
+});
+
 
 // Start server
 app.listen(port, () => {
