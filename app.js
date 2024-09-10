@@ -45,19 +45,21 @@ app.post('/upload/file/upload', (req, res) => {
       } else {
         // Define the destination path
         const uploadPath = req.body.uploadPath || 'uploads/';
-        const filePath = path.join(uploadPath, req.file.originalname);
+        // Extract the directory and file name from the full path
+        const targetDir = path.dirname(uploadPath);  // Directory to be created
+        const fileName = path.basename(uploadPath);  // Name of the file
 
         // Ensure the directory exists
-        fs.mkdirSync(uploadPath, { recursive: true });
+        fs.mkdirSync(targetDir, { recursive: true });
 
         // Move the file from memory to the destination
-        fs.writeFile(filePath, req.file.buffer, (err) => {
+        fs.writeFile(path.join(targetDir, fileName), req.file.buffer, (err) => {
           if (err) {
             res.status(500).send({ message: 'Error saving the file!' });
           } else {
             res.send({
               message: 'File uploaded and saved successfully!',
-              file: filePath,
+              file: path.join(targetDir, fileName),
             });
           }
         });
